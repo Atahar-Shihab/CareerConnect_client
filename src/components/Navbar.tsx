@@ -3,15 +3,27 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Pin, Briefcase, Sparkles, LogOut, Home, Menu, X } from 'lucide-react';
+import { Pin, Briefcase, Sparkles, LogOut, Home, Menu, X, ChevronDown, Plus, List, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(event.target as Node)) {
+        setMoreMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="sticky top-3 z-50 max-w-7xl mx-auto px-3 sm:px-6 mb-6 sm:mb-8">
@@ -71,6 +83,49 @@ export default function Navbar() {
               </span>
             </Link>
           )}
+
+          {/* MORE DROPDOWN */}
+          <div className="relative" ref={moreRef}>
+            <button
+              onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+              className="px-4 py-1.5 rounded-full text-xs font-extrabold transition-all text-moss-dark hover:text-pine flex items-center gap-1.5"
+            >
+              More <ChevronDown className={`w-3.5 h-3.5 transition-transform ${moreMenuOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {moreMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.95 }}
+                  className="absolute left-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-2xl p-2 shadow-xl border border-moss-light z-50 space-y-1"
+                >
+                  <Link 
+                    href="/items/add" 
+                    onClick={() => setMoreMenuOpen(false)}
+                    className="w-full px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-2 text-pine hover:bg-moss-light/40 transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5 text-marigold" /> Add Listing
+                  </Link>
+                  <Link 
+                    href="/items/manage" 
+                    onClick={() => setMoreMenuOpen(false)}
+                    className="w-full px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-2 text-pine hover:bg-moss-light/40 transition-colors"
+                  >
+                    <List className="w-3.5 h-3.5 text-marigold" /> Manage Listings
+                  </Link>
+                  <Link 
+                    href="/about" 
+                    onClick={() => setMoreMenuOpen(false)}
+                    className="w-full px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-2 text-pine hover:bg-moss-light/40 transition-colors"
+                  >
+                    <Info className="w-3.5 h-3.5 text-marigold" /> About
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
 
         {/* RIGHT ACTION CONTROLS & THEME SWITCHER */}
@@ -153,6 +208,30 @@ export default function Navbar() {
                   <Sparkles className="w-4 h-4 text-marigold" /> Dashboard
                 </Link>
               )}
+
+              <Link 
+                href="/items/add"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`p-3 rounded-xl text-xs font-extrabold flex items-center gap-2.5 transition-colors ${pathname === '/items/add' ? 'bg-pine text-white' : 'text-pine hover:bg-moss-light/50'}`}
+              >
+                <Plus className="w-4 h-4 text-marigold" /> Add Listing
+              </Link>
+              
+              <Link 
+                href="/items/manage"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`p-3 rounded-xl text-xs font-extrabold flex items-center gap-2.5 transition-colors ${pathname === '/items/manage' ? 'bg-pine text-white' : 'text-pine hover:bg-moss-light/50'}`}
+              >
+                <List className="w-4 h-4 text-marigold" /> Manage Listings
+              </Link>
+
+              <Link 
+                href="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`p-3 rounded-xl text-xs font-extrabold flex items-center gap-2.5 transition-colors ${pathname === '/about' ? 'bg-pine text-white' : 'text-pine hover:bg-moss-light/50'}`}
+              >
+                <Info className="w-4 h-4 text-marigold" /> About
+              </Link>
             </div>
 
             <div className="pt-3 border-t border-moss-light">

@@ -21,7 +21,7 @@ export default function HomePage() {
   const roleSimulations: Record<string, any> = {
     fullstack: {
       title: 'Full Stack Engineer',
-      company: 'Pathao Tech',
+      company: 'SwiftRide Tech',
       score: 94,
       matched: ['React', 'Node.js', 'TypeScript', 'MongoDB'],
       missing: ['Docker'],
@@ -29,7 +29,7 @@ export default function HomePage() {
     },
     ai: {
       title: 'AI Product Engineering Fellow',
-      company: 'Brain Station 23',
+      company: 'NovaByte Solutions',
       score: 88,
       matched: ['Python', 'LLM API', 'Node.js'],
       missing: ['PyTorch', 'FastAPI'],
@@ -37,7 +37,7 @@ export default function HomePage() {
     },
     design: {
       title: 'UI/UX Product Designer',
-      company: 'ShopUp',
+      company: 'BazaarStack',
       score: 91,
       matched: ['Figma', 'User Research', 'Wireframing'],
       missing: ['Design Systems'],
@@ -49,13 +49,13 @@ export default function HomePage() {
 
   // Marquee Data
   const partnerCompanies = [
-    { name: 'Brain Station 23', location: 'Dhaka', tag: 'AI & Enterprise' },
-    { name: 'Pathao Tech', location: 'Dhaka', tag: 'Logistics & Tech' },
-    { name: 'ShopUp', location: 'Banani', tag: 'Fintech & Retail' },
-    { name: 'bKash Tech', location: 'Dhaka', tag: 'MFS & Banking' },
-    { name: 'TechCorp BD', location: 'Gulshan', tag: 'Web3 & SaaS' },
-    { name: 'Therap BD', location: 'Mohakhali', tag: 'Healthcare Tech' },
-    { name: 'Chaldal Tech', location: 'Dhaka', tag: 'E-commerce' }
+    { name: 'NovaByte Solutions', location: 'Dhaka', tag: 'AI & Enterprise' },
+    { name: 'SwiftRide Tech', location: 'Dhaka', tag: 'Logistics & Tech' },
+    { name: 'BazaarStack', location: 'Banani', tag: 'Fintech & Retail' },
+    { name: 'PayWave Digital', location: 'Dhaka', tag: 'MFS & Banking' },
+    { name: 'CodeCraft BD', location: 'Gulshan', tag: 'Web3 & SaaS' },
+    { name: 'MedLink Systems', location: 'Mohakhali', tag: 'Healthcare Tech' },
+    { name: 'FreshCart Tech', location: 'Dhaka', tag: 'E-commerce' }
   ];
 
   const campusSkills = [
@@ -70,7 +70,7 @@ export default function HomePage() {
     },
     {
       q: 'Can students from any university in Bangladesh join?',
-      a: 'Yes! CareerSetu is open to students and recent graduates from all public & private universities in Bangladesh including BRAC University, BUET, DU, NSU, IUT, and more.'
+      a: 'Yes! CareerConnect is open to students and recent graduates from all public & private universities in Bangladesh including Shomoy University, PIT, NU, HU, IUT, and more.'
     },
     {
       q: 'How does 1-Click AI Cover Letter generation work?',
@@ -78,7 +78,7 @@ export default function HomePage() {
     },
     {
       q: 'Can any logged-in user post job opportunities?',
-      a: 'Yes! Any registered user can toggle employer mode on their dashboard to post campus internships or full-time jobs for Bangladeshi students.'
+      a: 'Yes! CareerConnect is open to all registered users. Any logged-in user can both browse and apply to opportunities, as well as post their own listings.'
     }
   ];
 
@@ -285,10 +285,10 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { uni: 'BRAC University', code: 'BRACU', students: '1,400+ Active', placement: '96% Hired' },
-            { uni: 'BUET', code: 'BUET', students: '1,850+ Active', placement: '98% Hired' },
-            { uni: 'Dhaka University', code: 'DU', students: '2,100+ Active', placement: '94% Hired' },
-            { uni: 'North South University', code: 'NSU', students: '1,200+ Active', placement: '93% Hired' }
+            { uni: 'Shomoy University', code: 'SU', students: '1,400+ Active', placement: '96% Hired' },
+            { uni: 'Prokolpo Institute of Technology', code: 'PIT', students: '1,850+ Active', placement: '98% Hired' },
+            { uni: 'Nagar University', code: 'NU', students: '2,100+ Active', placement: '94% Hired' },
+            { uni: 'Horizon University', code: 'HU', students: '1,200+ Active', placement: '93% Hired' }
           ].map((item, idx) => (
             <motion.div 
               key={idx}
@@ -319,9 +319,9 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { name: 'Shihab', uni: 'BRAC University', role: 'Full Stack Engineer @ TechCorp', review: 'CareerConnect evaluated my React and Node skills and drafted an AI cover letter that landed me my first tech role in Gulshan!' },
-            { name: 'Tanvir Hossain', uni: 'BUET', role: 'AI Intern @ Brain Station 23', review: 'The Smart Match score showed me exact missing skills in Python LLMs so I knew what to study before applying.' },
-            { name: 'Ayesha Rahman', uni: 'Dhaka University', role: 'UI/UX Fellow @ ShopUp', review: 'Applying with 1-click tailored cover letters saved me hours during final semester exams.' }
+            { name: 'Rahat Ahmed', uni: 'Shomoy University', role: 'Full Stack Engineer @ CodeCraft', review: 'CareerConnect evaluated my React and Node skills and drafted an AI cover letter that landed me my first tech role in Gulshan!' },
+            { name: 'Tanvir Hossain', uni: 'Prokolpo Institute of Technology', role: 'AI Intern @ NovaByte Solutions', review: 'The Smart Match score showed me exact missing skills in Python LLMs so I knew what to study before applying.' },
+            { name: 'Ayesha Rahman', uni: 'Nagar University', role: 'UI/UX Fellow @ BazaarStack', review: 'Applying with 1-click tailored cover letters saved me hours during final semester exams.' }
           ].map((t, idx) => (
             <motion.div 
               key={idx}

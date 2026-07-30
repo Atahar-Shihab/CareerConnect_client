@@ -111,14 +111,14 @@ export default function LoginPage() {
           <div className="flex gap-2">
             <button 
               type="button"
-              onClick={() => setDemoUser('shihab@brac.bd.com')}
+              onClick={() => setDemoUser('rahat@demo.cc')}
               className="flex-1 text-[11px] font-bold bg-pine/10 text-pine py-1.5 px-2 rounded-lg hover:bg-pine hover:text-white transition-colors"
             >
-              🎓 Shihab (BRAC Univ)
+              🎓 Rahat (Shomoy Univ)
             </button>
             <button 
               type="button"
-              onClick={() => setDemoUser('hr@techcorp.bd')}
+              onClick={() => setDemoUser('hr@codecraft.bd')}
               className="flex-1 text-[11px] font-bold bg-marigold/20 text-pine-dark py-1.5 px-2 rounded-lg hover:bg-marigold transition-colors"
             >
               🏢 HR Demo
@@ -139,7 +139,7 @@ export default function LoginPage() {
               <Mail className="w-4 h-4 text-moss absolute left-3 top-1/2 -translate-y-1/2" />
               <input 
                 type="email" required
-                placeholder="shihab@brac.bd.com"
+                placeholder="rahat@demo.cc"
                 className="w-full bg-white border border-amber-200 pl-9 pr-3 py-2.5 rounded-xl text-sm font-medium text-pine focus:outline-none focus:ring-2 focus:ring-marigold"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

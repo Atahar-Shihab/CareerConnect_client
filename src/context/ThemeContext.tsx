@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type Theme = 'paper' | 'midnight' | 'sunlit' | 'cyberpunk' | 'sakura';
+export type Theme = 'paper' | 'midnight';
 
 interface ThemeContextType {
   theme: Theme;
@@ -15,8 +15,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setThemeState] = useState<Theme>('paper');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('careersetu_theme') as Theme;
-    if (savedTheme && ['paper', 'midnight', 'sunlit', 'cyberpunk', 'sakura'].includes(savedTheme)) {
+    const savedTheme = localStorage.getItem('careerconnect_theme') as Theme;
+    if (savedTheme && ['paper', 'midnight'].includes(savedTheme)) {
       setThemeState(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
     }
@@ -24,7 +24,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
-    localStorage.setItem('careersetu_theme', newTheme);
+    localStorage.setItem('careerconnect_theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 

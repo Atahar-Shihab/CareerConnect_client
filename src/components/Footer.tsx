@@ -43,6 +43,26 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/about" className="hover:text-pine transition-colors flex items-center gap-1">
+                  About <ArrowUpRight className="w-3 h-3 text-marigold" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-pine transition-colors flex items-center gap-1">
+                  Contact <ArrowUpRight className="w-3 h-3 text-marigold" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/items/add" className="hover:text-pine transition-colors flex items-center gap-1">
+                  Post a Listing <ArrowUpRight className="w-3 h-3 text-marigold" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/items/manage" className="hover:text-pine transition-colors flex items-center gap-1">
+                  Manage Listings <ArrowUpRight className="w-3 h-3 text-marigold" />
+                </Link>
+              </li>
+              <li>
                 <Link href="/login" className="hover:text-pine transition-colors flex items-center gap-1">
                   Student / Employer Login <ArrowUpRight className="w-3 h-3 text-marigold" />
                 </Link>
@@ -54,7 +74,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs font-extrabold uppercase text-pine tracking-wider">Connected Campuses</h4>
             <div className="flex flex-wrap gap-1.5 text-[11px] font-bold">
-              {['BRAC University', 'BUET', 'Dhaka University', 'North South University', 'IUT'].map((uni, idx) => (
+              {['Shomoy University', 'Prokolpo Institute of Technology', 'Nagar University', 'Horizon University', 'IUT'].map((uni, idx) => (
                 <span key={idx} className="bg-moss-light/70 text-pine px-2.5 py-1 rounded-md border border-moss/20">
                   🎓 {uni}
                 </span>

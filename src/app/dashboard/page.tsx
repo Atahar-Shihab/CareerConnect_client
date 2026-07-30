@@ -28,8 +28,17 @@ export default function DashboardPage() {
   const [resumeAnalysis, setResumeAnalysis] = useState<any>(null);
   const [uploadSuccessMsg, setUploadSuccessMsg] = useState('');
 
-  // Cover Letter Modal State
-  const [selectedCoverLetter, setSelectedCoverLetter] = useState<string | null>(null);
+  const [isUpgraded, setIsUpgraded] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('payment') === 'success' || localStorage.getItem('isUpgraded') === 'true') {
+        setIsUpgraded(true);
+        localStorage.setItem('isUpgraded', 'true');
+      }
+    }
+  }, []);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -214,6 +223,19 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8 pb-16 max-w-5xl mx-auto">
       
+      {/* PAYMENT SUCCESS BANNER */}
+      {isUpgraded && (
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="bg-emerald-100 border border-emerald-300 text-emerald-900 p-4 rounded-2xl flex items-center justify-between text-xs font-bold shadow-sm">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+            <span>🎉 Stripe Payment Successful! Your account has been upgraded to Verified Featured Status.</span>
+          </div>
+          <button onClick={() => { localStorage.removeItem('isUpgraded'); setIsUpgraded(false); }} className="text-emerald-700 underline text-[11px]">
+            Reset Status
+          </button>
+        </motion.div>
+      )}
+
       {/* USER WELCOME HEADER */}
       <div className="glass-card p-8 rounded-3xl pin-shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-white">
         <div>
@@ -221,6 +243,11 @@ export default function DashboardPage() {
             <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-marigold/20 text-pine border border-marigold/30">
               {user.role} Control Center
             </span>
+            {isUpgraded && (
+              <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-amber-400 text-pine border border-amber-500 shadow-xs">
+                ⭐ Featured Pro
+              </span>
+            )}
           </div>
           <h1 className="text-3xl font-heading font-extrabold text-pine mt-1">
             Welcome back, {user.name}!
@@ -229,12 +256,18 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => handleStripePayment(user.role === 'employer' ? 'employer_featured' : 'student_badge')}
-            className="btn-pin-primary text-xs py-2 px-4 flex items-center gap-1.5 shadow-md"
-          >
-            💳 Upgrade via Stripe (${user.role === 'employer' ? '10' : '5'} USD)
-          </button>
+          {isUpgraded ? (
+            <div className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 text-pine font-black text-xs px-4 py-2.5 rounded-2xl shadow-md border border-amber-300">
+              <Sparkles className="w-4 h-4 text-pine fill-pine" /> VERIFIED FEATURED
+            </div>
+          ) : (
+            <button
+              onClick={() => handleStripePayment(user.role === 'employer' ? 'employer_featured' : 'student_badge')}
+              className="btn-pin-primary text-xs py-2 px-4 flex items-center gap-1.5 shadow-md"
+            >
+              💳 Upgrade via Stripe (${user.role === 'employer' ? '10' : '5'} USD)
+            </button>
+          )}
 
           <div className="w-12 h-12 rounded-2xl bg-pine flex items-center justify-center text-marigold font-bold text-xl shadow-md">
             {user.name.charAt(0)}

@@ -1,0 +1,52 @@
+import type { Metadata } from "next";
+import { Bricolage_Grotesque, Karla } from "next/font/google";
+import "./globals.css";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+});
+
+const karla = Karla({
+  subsets: ["latin"],
+  variable: "--font-karla",
+});
+
+export const metadata: Metadata = {
+  title: "CareerSetu - Campus Job & Internship Board",
+  description: "Your bridge from campus to career",
+};
+
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import GoogleProvider from "@/providers/GoogleProvider";
+import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+
+import Navbar from "@/components/Navbar";
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" data-theme="paper">
+      <body
+        className={`${bricolage.variable} ${karla.variable} font-sans antialiased bg-background text-foreground`}
+      >
+        <ReactQueryProvider>
+          <GoogleProvider>
+            <ThemeProvider>
+              <AuthProvider>
+                <Navbar />
+                <main className="max-w-7xl mx-auto px-6">
+                  {children}
+                </main>
+              </AuthProvider>
+            </ThemeProvider>
+          </GoogleProvider>
+        </ReactQueryProvider>
+      </body>
+    </html>
+  );
+}

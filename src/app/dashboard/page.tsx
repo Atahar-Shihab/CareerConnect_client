@@ -445,7 +445,7 @@ export default function DashboardPage() {
       )}
 
       {/* DASHBOARD TAB NAVIGATION BAR */}
-      <div className="flex flex-wrap items-center gap-2 bg-moss-light/50 p-2 rounded-2xl border border-moss-light">
+      <div className="flex items-center gap-2 bg-moss-light/50 p-2 rounded-2xl border border-moss-light overflow-x-auto max-w-full no-scrollbar">
         {user.role === 'student' ? (
           <>
             <button

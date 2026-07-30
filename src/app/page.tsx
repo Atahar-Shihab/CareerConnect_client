@@ -288,7 +288,7 @@ export default function HomePage() {
             { uni: 'BRAC University', code: 'BRACU', students: '1,400+ Active', placement: '96% Hired' },
             { uni: 'BUET', code: 'BUET', students: '1,850+ Active', placement: '98% Hired' },
             { uni: 'Dhaka University', code: 'DU', students: '2,100+ Active', placement: '94% Hired' },
-            { uni: 'North South Univ', code: 'NSU', students: '1,200+ Active', placement: '93% Hired' }
+            { uni: 'North South University', code: 'NSU', students: '1,200+ Active', placement: '93% Hired' }
           ].map((item, idx) => (
             <motion.div 
               key={idx}

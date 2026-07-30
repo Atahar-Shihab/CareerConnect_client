@@ -6,7 +6,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Pin, User, Briefcase, Plus, X, Sparkles, CheckCircle, FileText, 
-  BarChart3, UploadCloud, AlertTriangle, FileCheck, Layers, Clock, Send, Eye, CheckCircle2 
+  BarChart3, UploadCloud, AlertTriangle, FileCheck, Layers, Eye, CheckCircle2,
+  Info, HelpCircle, ArrowRight, Award, Zap, ChevronRight
 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
 
@@ -16,6 +17,7 @@ export default function DashboardPage() {
 
   // Active Dashboard Tab
   const [activeTab, setActiveTab] = useState<'profile' | 'resume' | 'applications' | 'employer-jobs' | 'post-job'>('profile');
+  const [showGuide, setShowGuide] = useState(true);
 
   // Student Profile State
   const [bio, setBio] = useState('');
@@ -27,6 +29,9 @@ export default function DashboardPage() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [resumeAnalysis, setResumeAnalysis] = useState<any>(null);
   const [uploadSuccessMsg, setUploadSuccessMsg] = useState('');
+
+  // Cover Letter Modal State
+  const [selectedCoverLetter, setSelectedCoverLetter] = useState<string | null>(null);
 
   const [isUpgraded, setIsUpgraded] = useState(false);
 
@@ -274,6 +279,161 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* QUICK STAT SUMMARY ROW */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {user.role === 'student' ? (
+          <>
+            <div className="glass-card p-5 rounded-2xl border border-moss-light flex items-center justify-between">
+              <div>
+                <p className="text-xs font-extrabold text-moss-dark uppercase">Skills Pinned</p>
+                <p className="text-2xl font-heading font-black text-pine mt-0.5">{skills.length} Skills</p>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-amber-100 text-pine flex items-center justify-center font-bold">
+                <Zap className="w-5 h-5 text-marigold-hover" />
+              </div>
+            </div>
+
+            <div className="glass-card p-5 rounded-2xl border border-moss-light flex items-center justify-between">
+              <div>
+                <p className="text-xs font-extrabold text-moss-dark uppercase">Market Readiness</p>
+                <p className="text-2xl font-heading font-black text-pine mt-0.5">88% Score</p>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                <BarChart3 className="w-5 h-5 text-emerald-600" />
+              </div>
+            </div>
+
+            <div className="glass-card p-5 rounded-2xl border border-moss-light flex items-center justify-between">
+              <div>
+                <p className="text-xs font-extrabold text-moss-dark uppercase">Applications Sent</p>
+                <p className="text-2xl font-heading font-black text-pine mt-0.5">{myApplications?.length || 0} Jobs</p>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-pine/10 text-pine flex items-center justify-center font-bold">
+                <Layers className="w-5 h-5 text-pine" />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="glass-card p-5 rounded-2xl border border-moss-light flex items-center justify-between">
+              <div>
+                <p className="text-xs font-extrabold text-moss-dark uppercase">Active Job Posts</p>
+                <p className="text-2xl font-heading font-black text-pine mt-0.5">{employerJobs?.length || 0} Postings</p>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-amber-100 text-pine flex items-center justify-center font-bold">
+                <Briefcase className="w-5 h-5 text-marigold-hover" />
+              </div>
+            </div>
+
+            <div className="glass-card p-5 rounded-2xl border border-moss-light flex items-center justify-between">
+              <div>
+                <p className="text-xs font-extrabold text-moss-dark uppercase">Candidate Applicants</p>
+                <p className="text-2xl font-heading font-black text-pine mt-0.5">
+                  {employerJobs?.reduce((acc: number, j: any) => acc + (j.applications?.length || 0), 0) || 0} Candidates
+                </p>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                <User className="w-5 h-5 text-emerald-600" />
+              </div>
+            </div>
+
+            <div className="glass-card p-5 rounded-2xl border border-moss-light flex items-center justify-between">
+              <div>
+                <p className="text-xs font-extrabold text-moss-dark uppercase">Employer Rank</p>
+                <p className="text-2xl font-heading font-black text-pine mt-0.5">{isUpgraded ? '⭐ Featured' : 'Standard'}</p>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-pine/10 text-pine flex items-center justify-center font-bold">
+                <Award className="w-5 h-5 text-pine" />
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* DASHBOARD GUIDE INFOGRAPHIC BOX */}
+      {showGuide && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-amber-50/90 p-6 rounded-3xl border border-amber-200 pin-shadow space-y-3 relative">
+          <button onClick={() => setShowGuide(false)} className="absolute top-4 right-4 text-moss hover:text-pine">
+            <X className="w-4 h-4" />
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <Info className="w-5 h-5 text-marigold" />
+            <h3 className="font-heading font-extrabold text-pine text-base">
+              How to Use Your {user.role === 'student' ? 'Student' : 'Employer'} Dashboard
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+            {user.role === 'student' ? (
+              <>
+                <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
+                  <p className="text-xs font-extrabold text-pine flex items-center gap-1.5 mb-1">
+                    <span className="w-5 h-5 rounded-full bg-pine text-white text-[10px] flex items-center justify-center font-black">1</span>
+                    Build Skill Profile
+                  </p>
+                  <p className="text-[11px] text-moss-dark font-medium leading-normal">
+                    Add your technical skills (React, Node, Python) to drive the Gemini AI Smart Match engine.
+                  </p>
+                </div>
+
+                <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
+                  <p className="text-xs font-extrabold text-pine flex items-center gap-1.5 mb-1">
+                    <span className="w-5 h-5 rounded-full bg-pine text-white text-[10px] flex items-center justify-center font-black">2</span>
+                    Upload PDF Resume
+                  </p>
+                  <p className="text-[11px] text-moss-dark font-medium leading-normal">
+                    Drop your PDF resume to extract skills automatically & evaluate keyword readiness scores.
+                  </p>
+                </div>
+
+                <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
+                  <p className="text-xs font-extrabold text-pine flex items-center gap-1.5 mb-1">
+                    <span className="w-5 h-5 rounded-full bg-pine text-white text-[10px] flex items-center justify-center font-black">3</span>
+                    1-Click AI Apply
+                  </p>
+                  <p className="text-[11px] text-moss-dark font-medium leading-normal">
+                    Apply for job postings with 1-click tailored AI cover letters & track status.
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
+                  <p className="text-xs font-extrabold text-pine flex items-center gap-1.5 mb-1">
+                    <span className="w-5 h-5 rounded-full bg-pine text-white text-[10px] flex items-center justify-center font-black">1</span>
+                    Review Postings
+                  </p>
+                  <p className="text-[11px] text-moss-dark font-medium leading-normal">
+                    Inspect your active job postings and candidate counts across university campuses.
+                  </p>
+                </div>
+
+                <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
+                  <p className="text-xs font-extrabold text-pine flex items-center gap-1.5 mb-1">
+                    <span className="w-5 h-5 rounded-full bg-pine text-white text-[10px] flex items-center justify-center font-black">2</span>
+                    Inspect Applicants
+                  </p>
+                  <p className="text-[11px] text-moss-dark font-medium leading-normal">
+                    Read student candidates' emails and preview their generated AI cover letters.
+                  </p>
+                </div>
+
+                <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
+                  <p className="text-xs font-extrabold text-pine flex items-center gap-1.5 mb-1">
+                    <span className="w-5 h-5 rounded-full bg-pine text-white text-[10px] flex items-center justify-center font-black">3</span>
+                    Featured Upgrade
+                  </p>
+                  <p className="text-[11px] text-moss-dark font-medium leading-normal">
+                    Upgrade via Stripe for priority placement on university bulletin boards.
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        </motion.div>
+      )}
 
       {/* DASHBOARD TAB NAVIGATION BAR */}
       <div className="flex flex-wrap items-center gap-2 bg-moss-light/50 p-2 rounded-2xl border border-moss-light">
@@ -559,11 +719,11 @@ export default function DashboardPage() {
                     <div>
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                          {app.status}
+                          {app.status || 'Submitted'}
                         </span>
                         <span className="text-[11px] font-semibold text-moss">Applied on {new Date(app.appliedAt).toLocaleDateString()}</span>
                       </div>
-                      <h3 className="text-lg font-heading font-extrabold text-pine">{app.jobId?.title || 'Job Opportunity'}</h3>
+                      <h3 className="text-lg font-heading font-extrabold text-pine">{app.jobId?.title || 'Campus Opportunity'}</h3>
                       <p className="text-xs font-bold text-marigold-hover">{app.jobId?.companyName} • {app.jobId?.location}</p>
                     </div>
 
@@ -625,7 +785,7 @@ export default function DashboardPage() {
                     {/* Applicants List */}
                     {job.applications && job.applications.length > 0 ? (
                       <div className="space-y-2 pt-2 border-t border-amber-200/60">
-                        <p className="text-xs font-extrabold uppercase text-pine">Student Applicants:</p>
+                        <p className="text-xs font-extrabold uppercase text-pine">Student Candidates:</p>
                         {job.applications.map((app: any) => (
                           <div key={app._id} className="bg-amber-50/60 p-3 rounded-xl flex items-center justify-between text-xs">
                             <div>

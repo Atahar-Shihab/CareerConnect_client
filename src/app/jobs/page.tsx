@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Pin, Search, MapPin, Briefcase, Sparkles, Filter, ChevronRight } from 'lucide-react';
+import { Pin, Search, MapPin, Sparkles, ChevronRight } from 'lucide-react';
 
 export default function JobsPage() {
   const { token } = useAuth();
@@ -20,19 +20,20 @@ export default function JobsPage() {
       const res = await fetch(`${API_URL}/api/jobs`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (!res.ok) throw new Error('Failed to fetch jobs');
-      return res.json();
+      if (!res.ok) return [];
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
     },
     enabled: !!token,
   });
 
-  const filteredJobs = jobs?.filter((job: any) => {
-    const matchesSearch = job.title.toLowerCase().includes(search.toLowerCase()) || 
-                          job.companyName.toLowerCase().includes(search.toLowerCase()) ||
-                          job.description.toLowerCase().includes(search.toLowerCase());
+  const filteredJobs = Array.isArray(jobs) ? jobs.filter((job: any) => {
+    const matchesSearch = (job.title || '').toLowerCase().includes(search.toLowerCase()) || 
+                          (job.companyName || '').toLowerCase().includes(search.toLowerCase()) ||
+                          (job.description || '').toLowerCase().includes(search.toLowerCase());
     const matchesFilter = filterType === 'all' || job.type === filterType;
     return matchesSearch && matchesFilter;
-  });
+  }) : [];
 
   if (!token) return (
     <div className="py-16 text-center max-w-md mx-auto glass-card p-8 rounded-2xl pin-shadow">
@@ -99,9 +100,9 @@ export default function JobsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {filteredJobs?.map((job: any, index: number) => (
+          {filteredJobs.map((job: any, index: number) => (
             <motion.div
-              key={job._id}
+              key={job._id || index}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
@@ -116,10 +117,10 @@ export default function JobsPage() {
               <div>
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-pine/10 text-pine uppercase tracking-wider">
-                    {job.type}
+                    {job.type || 'Job'}
                   </span>
                   <span className="text-xs font-semibold text-moss flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5" /> {job.location}
+                    <MapPin className="w-3.5 h-3.5" /> {job.location || 'Remote'}
                   </span>
                 </div>
 
@@ -133,7 +134,7 @@ export default function JobsPage() {
                 </p>
 
                 {/* Skill Pills */}
-                {job.requirements && job.requirements.length > 0 && (
+                {job.requirements && Array.isArray(job.requirements) && (
                   <div className="flex flex-wrap gap-1.5 mb-6">
                     {job.requirements.map((req: string, i: number) => (
                       <span key={i} className="text-[11px] font-semibold bg-white/80 border border-amber-200 text-pine px-2 py-0.5 rounded-md">
@@ -159,7 +160,7 @@ export default function JobsPage() {
             </motion.div>
           ))}
 
-          {filteredJobs?.length === 0 && (
+          {filteredJobs.length === 0 && (
             <div className="col-span-full py-16 text-center glass-card rounded-2xl">
               <p className="text-moss-dark font-semibold">No campus jobs matching your search criteria.</p>
             </div>

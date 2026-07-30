@@ -131,8 +131,11 @@ export default function DashboardPage() {
     }
   });
 
+  const [pdfUploadError, setPdfUploadError] = useState('');
+
   const uploadPdfMutation = useMutation({
     mutationFn: async (file: File) => {
+      setPdfUploadError('');
       const formData = new FormData();
       formData.append('resume', file);
 
@@ -146,9 +149,15 @@ export default function DashboardPage() {
       return data;
     },
     onSuccess: (data) => {
-      setResumeAnalysis(data.analysis);
-      setUploadSuccessMsg(`Parsed "${data.fileName}". Extracted ${data.extractedSkills.length} new skills into your profile!`);
+      setResumeAnalysis({
+        ...data.analysis,
+        extractedSkills: data.extractedSkills || []
+      });
+      setUploadSuccessMsg(`Parsed "${data.fileName}". Gemini AI extracted ${data.extractedSkills?.length || 0} skills & auto-updated your profile!`);
       queryClient.invalidateQueries({ queryKey: ['profile'] });
+    },
+    onError: (err: any) => {
+      setPdfUploadError(err.message || 'Could not parse PDF. Please try another PDF file.');
     }
   });
 
@@ -633,9 +642,15 @@ export default function DashboardPage() {
               </div>
             )}
 
+            {pdfUploadError && (
+              <p className="text-xs font-bold text-red-700 bg-red-100 p-2.5 rounded-xl text-center">
+                ⚠️ {pdfUploadError}
+              </p>
+            )}
+
             {uploadSuccessMsg && (
-              <p className="text-xs font-bold text-emerald-700 bg-emerald-100 p-2.5 rounded-xl text-center">
-                {uploadSuccessMsg}
+              <p className="text-xs font-bold text-emerald-700 bg-emerald-100 p-2.5 rounded-xl text-center flex items-center justify-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> {uploadSuccessMsg}
               </p>
             )}
           </div>
@@ -660,16 +675,35 @@ export default function DashboardPage() {
           </div>
 
           {resumeAnalysis && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-amber-50/90 p-6 rounded-2xl border border-amber-200 space-y-4">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-amber-50/90 p-6 rounded-2xl border border-amber-200 space-y-4">
               <div className="flex items-center justify-between border-b border-amber-200/80 pb-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-marigold fill-marigold" />
-                  <span className="font-heading font-bold text-pine">Gemini Resume Evaluation Score</span>
+                  <span className="font-heading font-bold text-pine">Gemini AI Document Analysis Results</span>
                 </div>
                 <span className="text-xl font-extrabold text-marigold-hover">{resumeAnalysis.readinessScore}/100</span>
               </div>
 
-              <p className="text-xs text-pine font-medium leading-relaxed">{resumeAnalysis.overallFeedback}</p>
+              <p className="text-xs text-pine font-medium leading-relaxed bg-white/70 p-3 rounded-xl border border-amber-200/60">
+                {resumeAnalysis.overallFeedback}
+              </p>
+
+              {/* EXTRACTED SKILLS PILL BADGES */}
+              {resumeAnalysis.extractedSkills && resumeAnalysis.extractedSkills.length > 0 && (
+                <div className="bg-white/90 p-4 rounded-xl border border-amber-200 space-y-2">
+                  <p className="text-xs font-extrabold text-pine flex items-center justify-between">
+                    <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-marigold-hover" /> Extracted Skills & Concepts:</span>
+                    <button onClick={() => setActiveTab('profile')} className="text-[11px] text-marigold-hover hover:underline">View in Skill Profile →</button>
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {resumeAnalysis.extractedSkills.map((sk: string, i: number) => (
+                      <span key={i} className="text-xs font-bold bg-pine text-white px-3 py-1 rounded-full shadow-xs">
+                        #{sk}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-white/80 p-3.5 rounded-xl border border-emerald-200">
@@ -683,7 +717,7 @@ export default function DashboardPage() {
 
                 <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
                   <p className="text-xs font-extrabold text-amber-800 flex items-center gap-1 mb-1">
-                    <AlertTriangle className="w-4 h-4 text-amber-600" /> Keyword Enhancements
+                    <AlertTriangle className="w-4 h-4 text-amber-600" /> Actionable Recommendations
                   </p>
                   <ul className="text-xs text-pine space-y-1 font-medium">
                     {resumeAnalysis.improvements?.map((s: string, i: number) => <li key={i}>• {s}</li>)}

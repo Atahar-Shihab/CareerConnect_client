@@ -13,8 +13,12 @@ const karla = Karla({
 });
 
 export const metadata: Metadata = {
-  title: "CareerSetu - Campus Job & Internship Board",
-  description: "Your bridge from campus to career",
+  title: "CareerConnect — Campus Job & Internship Board",
+  description: "Your bridge from campus to career. Agentic AI-powered recruitment ecosystem connecting university students across Bangladesh with top tech companies.",
+  icons: {
+    icon: "/icon",
+    apple: "/icon",
+  },
 };
 
 import ReactQueryProvider from "@/providers/ReactQueryProvider";

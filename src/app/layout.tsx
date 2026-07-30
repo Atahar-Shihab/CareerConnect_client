@@ -27,6 +27,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function RootLayout({
   children,
@@ -36,16 +37,17 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="paper">
       <body
-        className={`${bricolage.variable} ${karla.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${bricolage.variable} ${karla.variable} font-sans antialiased bg-background text-foreground flex flex-col min-h-screen`}
       >
         <ReactQueryProvider>
           <GoogleProvider>
             <ThemeProvider>
               <AuthProvider>
                 <Navbar />
-                <main className="max-w-7xl mx-auto px-6">
+                <main className="max-w-7xl mx-auto px-4 sm:px-6 flex-1 w-full">
                   {children}
                 </main>
+                <Footer />
               </AuthProvider>
             </ThemeProvider>
           </GoogleProvider>

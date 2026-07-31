@@ -12,20 +12,27 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         pine: {
-          DEFAULT: "#0D3B2E",
-          light: "#175A46",
-          dark: "#08261E",
+          DEFAULT: "var(--pine)",
+          light: "var(--pine-light)",
+          dark: "var(--pine-dark)",
         },
         marigold: {
-          DEFAULT: "#F2A900",
-          light: "#F5C24D",
-          dark: "#B88000",
+          DEFAULT: "var(--marigold)",
+          hover: "var(--marigold-hover)",
+          light: "var(--marigold-light)",
         },
         moss: {
-          DEFAULT: "#8F9779",
-          light: "#A8AFA3",
-          dark: "#6F765B",
-        }
+          DEFAULT: "var(--moss)",
+          light: "var(--moss-light)",
+          dark: "var(--moss-dark)",
+        },
+        // Semantic tokens for surfaces & text
+        surface: {
+          DEFAULT: "var(--surface)",
+          elevated: "var(--surface-elevated)",
+        },
+        "text-primary": "var(--text-primary)",
+        "text-secondary": "var(--text-secondary)",
       },
       fontFamily: {
         heading: ["var(--font-bricolage)", "sans-serif"],

@@ -129,7 +129,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.96 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-2 w-52 bg-white/98 backdrop-blur-xl rounded-xl p-1.5 shadow-2xl border border-moss-light/60 z-50"
+                    className="absolute right-0 mt-2 w-52 bg-surface-elevated rounded-xl p-1.5 shadow-2xl border border-moss-light/60 z-50 ring-1 ring-black/5"
                   >
                     <div className="px-3 py-2 border-b border-moss-light/40 mb-1">
                       <p className="text-[9px] font-black uppercase tracking-widest text-moss/60">Quick Links</p>
@@ -139,7 +139,7 @@ export default function Navbar() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMoreMenuOpen(false)}
-                        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${pathname === link.href ? 'bg-pine text-white' : 'text-pine hover:bg-moss-light/40'}`}
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${pathname === link.href ? 'bg-pine text-background' : 'text-pine hover:bg-moss-light/40'}`}
                       >
                         <link.icon className={`w-3.5 h-3.5 ${pathname === link.href ? 'text-marigold' : 'text-moss'}`} />
                         {link.label}
@@ -178,7 +178,7 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 mt-2 w-56 bg-white/98 backdrop-blur-xl rounded-xl p-1.5 shadow-2xl border border-moss-light/60 z-50"
+                      className="absolute right-0 mt-2 w-56 bg-surface-elevated rounded-xl p-1.5 shadow-2xl border border-moss-light/60 z-50 ring-1 ring-black/5"
                     >
                       {/* User info header */}
                       <div className="px-3 py-2.5 border-b border-moss-light/40 mb-1">
@@ -279,7 +279,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="md:hidden fixed top-[58px] left-3 right-3 bg-white/98 backdrop-blur-2xl rounded-2xl border border-moss-light/60 shadow-2xl z-50 overflow-hidden"
+              className="md:hidden fixed top-[58px] left-3 right-3 bg-surface-elevated rounded-2xl border border-moss-light/60 shadow-2xl z-50 overflow-hidden"
             >
               <div className="p-4 space-y-1">
                 {/* Main Links */}
@@ -289,7 +289,7 @@ export default function Navbar() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${isActive ? 'bg-pine text-white shadow-sm' : 'text-pine hover:bg-moss-light/40'}`}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${isActive ? 'bg-pine text-background shadow-sm' : 'text-pine hover:bg-moss-light/40'}`}
                     >
                       <link.icon className={`w-4.5 h-4.5 ${isActive ? 'text-marigold' : 'text-moss'}`} />
                       {link.label}
@@ -305,7 +305,7 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${pathname === link.href ? 'bg-pine text-white shadow-sm' : 'text-pine/80 hover:bg-moss-light/40 hover:text-pine'}`}
+                    className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${pathname === link.href ? 'bg-pine text-background shadow-sm' : 'text-pine/80 hover:bg-moss-light/40 hover:text-pine'}`}
                   >
                     <link.icon className={`w-4 h-4 ${pathname === link.href ? 'text-marigold' : 'text-moss'}`} />
                     {link.label}
